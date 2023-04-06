@@ -1,10 +1,12 @@
 package com.ubuntuyouiwe.todo.data.dto.local
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.sql.Timestamp
 
-@Entity
+@Entity(tableName = "todo")
 data class TodoDto(
+    @PrimaryKey(autoGenerate = true)
     val id: Long,
     val title: String,
     val content: String,
