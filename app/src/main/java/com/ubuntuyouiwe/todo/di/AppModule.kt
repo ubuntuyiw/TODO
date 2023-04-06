@@ -25,6 +25,11 @@ object AppModule {
     ).build()
 
 
+    @Singleton
+    @Provides
+    fun provideInjectDao(database: TodoDatabase) = database.todoDao()
+
+
 
 
 

@@ -2,6 +2,7 @@ package com.ubuntuyouiwe.todo.data.dto.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ubuntuyouiwe.todo.domain.model.local.TodoDomain
 import java.sql.Timestamp
 
 @Entity(tableName = "todo")
@@ -18,6 +19,21 @@ data class TodoDto(
     val createdAt: Timestamp,
     val updatedAt: Timestamp
 )
+
+fun TodoDto.toTodoDomain(): TodoDomain {
+    return TodoDomain(
+        id = id,
+        title = title,
+        content = content,
+        deadline = deadline,
+        notificationOption = notificationOption,
+        isDone = isDone,
+        isFavorite = isFavorite,
+        isPinned = isPinned,
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
+}
 
 enum class NotificationOption {
     ONE_HOUR_BEFORE,
