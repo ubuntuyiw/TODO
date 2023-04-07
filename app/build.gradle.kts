@@ -69,8 +69,9 @@ dependencies {
 
 
     //Room
-    implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
+    implementation (libs.androidx.room.runtime)
+    annotationProcessor (libs.androidx.room.compiler)
+    kapt("androidx.room:room-compiler:2.5.1")
     implementation(libs.androidx.room.ktx)
 
     //Paging3
@@ -85,6 +86,16 @@ dependencies {
     implementation (libs.glide)
     annotationProcessor (libs.compiler)
 
+    // Coroutines
+    implementation (libs.kotlinx.coroutines.core)
+    implementation (libs.kotlinx.coroutines.android)
 
 
+
+}
+
+kapt {
+    arguments {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
 }

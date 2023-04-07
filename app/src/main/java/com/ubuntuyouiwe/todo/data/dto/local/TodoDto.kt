@@ -8,7 +8,7 @@ import java.sql.Timestamp
 @Entity(tableName = "todo")
 data class TodoDto(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0,
     val title: String,
     val content: String,
     val deadline: Timestamp,
@@ -40,5 +40,6 @@ enum class NotificationOption {
     RECURRING_HOURLY,
     RECURRING_DAILY,
     RECURRING_WEEKLY,
-    RECURRING_MONTHLY
+    RECURRING_MONTHLY,
+    NONE
 }
