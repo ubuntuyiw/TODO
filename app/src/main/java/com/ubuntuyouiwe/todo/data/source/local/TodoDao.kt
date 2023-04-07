@@ -20,7 +20,7 @@ interface TodoDao {
 
     // todo paging3 eklenecek
     @Query("SELECT * FROM todo")
-    fun getAllTodo(): Flow<List<TodoDto>>
+    fun getAllTodo(): List<TodoDto>
 
 
 

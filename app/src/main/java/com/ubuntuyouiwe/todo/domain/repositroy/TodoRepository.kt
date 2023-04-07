@@ -11,8 +11,6 @@ interface TodoRepository {
     suspend fun deleteTodo(todo: TodoDomain)
 
 
-    // todo paging3 eklenecek
-    fun getAllTodo(): Flow<List<TodoDomain>>
 
     fun getTodo(todoId: Int): Flow<TodoDomain>
 

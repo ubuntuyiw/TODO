@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.ubuntuyouiwe.todo.data.dto.local.TodoDto
 
 @Database(entities = [TodoDto::class], version = 1, exportSchema = true)
-@TypeConverters(TimestampConverter::class)
+@TypeConverters(ResponseListConverter::class)
 abstract class TodoDatabase : RoomDatabase() {
     abstract fun todoDao(): TodoDao
 

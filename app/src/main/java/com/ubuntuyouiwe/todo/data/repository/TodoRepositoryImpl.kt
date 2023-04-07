@@ -22,14 +22,14 @@ class TodoRepositoryImpl @Inject constructor(
     }
 
 
-    // todo paging3 eklenecek
+    /*// todo paging3 eklenecek
     override fun getAllTodo(): Flow<List<TodoDomain>> {
         return todoDao.getAllTodo().map { todoList ->
             todoList.map { todoDto ->
                 todoDto.toTodoDomain()
             }
         }
-    }
+    }*/
 
     override fun getTodo(todoId: Int): Flow<TodoDomain> {
         return todoDao.getTodo(todoId).map {todo ->

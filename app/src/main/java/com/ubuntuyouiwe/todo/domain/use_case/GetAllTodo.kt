@@ -11,9 +11,9 @@ class GetAllTodo @Inject constructor(
 
     // todo filtreleme sıralama gibi işlemler yapılacak
     // todo paging3 eklenecek
-    operator fun invoke(): Flow<List<TodoDomain>> {
+    /*operator fun invoke(): Flow<List<TodoDomain>> {
         return repository.getAllTodo()
-    }
+    }*/
 
 
 }

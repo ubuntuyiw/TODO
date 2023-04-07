@@ -91,6 +91,11 @@ dependencies {
     implementation (libs.kotlinx.coroutines.android)
 
 
+    implementation(libs.kotlinx.serialization.json)
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.0")
+
+
+
 
 }
 
