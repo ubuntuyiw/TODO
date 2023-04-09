@@ -7,6 +7,7 @@ plugins {
 
     id("com.google.dagger.hilt.android")
     kotlin("kapt")
+    id ("com.google.gms.google-services")
 }
 
 android {
@@ -93,6 +94,15 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.0")
+
+
+
+
+    implementation (libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.storage.ktx)
+    implementation(libs.firebase.functions.ktx)
+    implementation(libs.firebase.messaging.ktx)
 
 
 

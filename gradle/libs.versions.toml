@@ -1,5 +1,6 @@
 [versions]
 com-android-application = "8.1.0-alpha11"
+firebase-auth-ktx = "21.2.0"
 glide = "4.15.1"
 hilt-android = "2.45"
 hilt-compiler = "1.0.0"
@@ -19,6 +20,10 @@ material = "1.8.0"
 constraintlayout = "2.1.4"
 paging-runtime-ktx = "3.1.1"
 room-runtime = "2.5.1"
+firebase-firestore-ktx = "24.4.5"
+firebase-storage-ktx = "20.1.0"
+firebase-functions-ktx = "20.2.2"
+firebase-messaging-ktx = "23.1.2"
 
 [libraries]
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-compiler" }
@@ -34,6 +39,7 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room-run
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room-runtime" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebase-auth-ktx" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }
@@ -47,6 +53,10 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebase-firestore-ktx" }
+firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebase-storage-ktx" }
+firebase-functions-ktx = { group = "com.google.firebase", name = "firebase-functions-ktx", version.ref = "firebase-functions-ktx" }
+firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebase-messaging-ktx" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "com-android-application" }
