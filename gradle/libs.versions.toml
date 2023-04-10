@@ -24,6 +24,8 @@ firebase-firestore-ktx = "24.4.5"
 firebase-storage-ktx = "20.1.0"
 firebase-functions-ktx = "20.2.2"
 firebase-messaging-ktx = "23.1.2"
+legacy-support-v4 = "1.0.0"
+recyclerview = "1.2.1"
 
 [libraries]
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-compiler" }
@@ -57,6 +59,8 @@ firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-fires
 firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebase-storage-ktx" }
 firebase-functions-ktx = { group = "com.google.firebase", name = "firebase-functions-ktx", version.ref = "firebase-functions-ktx" }
 firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebase-messaging-ktx" }
+legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacy-support-v4" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "com-android-application" }

@@ -11,9 +11,9 @@ import com.ubuntuyouiwe.todo.domain.model.remote.TodoDomain
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class TodoListPagingSource  constructor(
+class TodoListPagingSource constructor(
     private val query: Query
-): PagingSource<QuerySnapshot,TodoDomain>() {
+) : PagingSource<QuerySnapshot, TodoDomain>() {
     override fun getRefreshKey(state: PagingState<QuerySnapshot, TodoDomain>): QuerySnapshot? {
 
         /*return state.lastItemOrNull()?.let { item ->
@@ -22,11 +22,13 @@ class TodoListPagingSource  constructor(
             }?.prevKey
         }*/
 
-        return state.anchorPosition?.let { anchorPosition ->
+        /*return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.let { anchorPage ->
                 anchorPage.nextKey ?: anchorPage.prevKey
             }
-        }
+        }*/
+
+        return null
     }
 
     override suspend fun load(params: LoadParams<QuerySnapshot>): LoadResult<QuerySnapshot, TodoDomain> {
@@ -34,7 +36,8 @@ class TodoListPagingSource  constructor(
         return try {
 
             val currentPage = params.key ?: query.get().await()
-            val lastVisibleTodo = currentPage.documents[currentPage.size()-1]
+
+            val lastVisibleTodo = currentPage.documents[currentPage.size() - 1]
             val nextPage = query.startAfter(lastVisibleTodo).get().await()
 
 
@@ -43,12 +46,9 @@ class TodoListPagingSource  constructor(
                 prevKey = null,
                 nextKey = nextPage
             )
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             LoadResult.Error(e)
         }
-
-
-
 
 
     }

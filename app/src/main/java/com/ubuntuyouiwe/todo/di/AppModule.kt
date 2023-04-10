@@ -25,8 +25,6 @@ import javax.inject.Singleton
 object AppModule {
 
 
-
-
     @Singleton
     @Provides
     fun provideTodoRepository(
@@ -34,13 +32,12 @@ object AppModule {
         store: FirebaseFirestore,
         storage: FirebaseStorage,
     ): TodoRepository =
-        TodoRepositoryImpl(auth,store,storage)
-
+        TodoRepositoryImpl(auth, store, storage)
 
 
     @Singleton
     @Provides
-    fun provideTodoUseCase(repository: TodoRepository) : TodoUseCase =
+    fun provideTodoUseCase(repository: TodoRepository): TodoUseCase =
         TodoUseCase(
             getTodoList = GetTodoList(repository),
             deleteTodo = DeleteTodo(repository),
@@ -50,9 +47,6 @@ object AppModule {
             updateTodo = UpdateTodo(repository)
 
         )
-
-
-
 
 
 }

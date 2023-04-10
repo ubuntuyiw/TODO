@@ -7,8 +7,4 @@ class TodoCount @Inject constructor(
     private val repository: TodoRepository
 ) {
 
-    /*suspend operator fun invoke(): Int {
-        return repository.getTodoCount()
-    }*/
-
 }

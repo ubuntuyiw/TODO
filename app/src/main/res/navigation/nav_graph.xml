@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/todoListFragment">
 
     <fragment
         android:id="@+id/todoListFragment"
         android:name="com.ubuntuyouiwe.todo.presentation.todo_list.TodoListFragment"
-        android:label="TodoListFragment" >
+        android:label="TodoListFragment"
+        tools:layout="@layout/fragment_todo_list">
         <action
             android:id="@+id/action_todoListFragment_to_editOrAddTodoFragment"
-            app:destination="@id/editOrAddTodoFragment" />
+            app:destination="@id/editOrAddTodoFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/editOrAddTodoFragment"
         android:name="com.ubuntuyouiwe.todo.presentation.edit_or_add_todo.EditOrAddTodoFragment"
-        android:label="EditOrAddTodoFragment" />
+        android:label="EditOrAddTodoFragment"
+        tools:layout="@layout/fragment_edit_or_add_todo">
+        <argument
+            android:name="name"
+            app:argType="string"
+            android:defaultValue="empity" />
+    </fragment>
 </navigation>

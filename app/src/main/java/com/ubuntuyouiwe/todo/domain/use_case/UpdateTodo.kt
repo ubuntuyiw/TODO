@@ -8,11 +8,4 @@ class UpdateTodo @Inject constructor(
 ) {
 
 
-    /*suspend operator fun invoke(todo: TodoDomain){
-
-        repository.updateTodo(todo)
-
-
-    }*/
-
 }

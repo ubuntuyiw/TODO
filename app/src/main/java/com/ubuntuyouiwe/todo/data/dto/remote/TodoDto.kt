@@ -20,7 +20,7 @@ data class TodoDto(
 fun TodoDto.toTodoDomain(): TodoDomain {
     return TodoDomain(
         title = title,
-        content =content,
+        content = content,
         deadline = deadline,
         notificationOption = notificationOption,
         isDone = isDone,

@@ -31,8 +31,7 @@ class TodoListViewModel @Inject constructor(
 
     }
 
-    //val st = useCase.getTodoList().launchIn(viewModelScope)
-
+    val st = useCase.getTodoList().cachedIn(viewModelScope)
 
 
     fun showList() {
@@ -40,9 +39,9 @@ class TodoListViewModel @Inject constructor(
             state.value = it
         }.launchIn(viewModelScope)*/
 
-       useCase.getTodoList().cachedIn(viewModelScope)
-            .onEach { state.value = it }
-            .launchIn(viewModelScope)
+        /*useCase.getTodoList().cachedIn(viewModelScope)
+             .onEach { state.value = it }
+             .launchIn(viewModelScope)*/
 
 
     }

@@ -24,7 +24,6 @@ class TodoListAdapter : PagingDataAdapter<TodoDomain, TodoListAdapter.ListTodoAd
             val formatter = SimpleDateFormat("yyyy MMM dd HH:mm", Locale.getDefault())
             val formattedDate = formatter.format(date)
             binding.deadlineTextView.text = formattedDate.toString()
-            binding.contentTextView.text = item.content
 
         }
 

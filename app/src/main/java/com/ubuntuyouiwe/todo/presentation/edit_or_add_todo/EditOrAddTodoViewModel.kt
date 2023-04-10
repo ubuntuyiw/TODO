@@ -14,8 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EditOrAddTodoViewModel @Inject constructor(
     private val todoUseCase: TodoUseCase
-): ViewModel(){
-
+) : ViewModel() {
 
 
     var title = MutableStateFlow<String?>(null)
@@ -48,32 +47,29 @@ class EditOrAddTodoViewModel @Inject constructor(
         viewModelScope.launch {
 
             saveState = try {
-                todoUseCase.insertTodo(TodoDomain(
-                    title = "Do the laundry",
-                    content = "Separate colors and whites, then wash on gentle cycle",
-                    deadline = Timestamp.now(),
-                    notificationOption = NotificationOption.NONE,
-                    isDone = false,
-                    isFavorite = true,
-                    isPinned = true,
-                    createdAt = Timestamp.now(),
-                    updatedAt = Timestamp.now()))
+                todoUseCase.insertTodo(
+                    TodoDomain(
+                        title = "Do the laundry",
+                        content = "Separate colors and whites, then wash on gentle cycle",
+                        deadline = Timestamp.now(),
+                        notificationOption = NotificationOption.NONE,
+                        isDone = false,
+                        isFavorite = true,
+                        isPinned = true,
+                        createdAt = Timestamp.now(),
+                        updatedAt = Timestamp.now()
+                    )
+                )
                 SaveState.Success
 
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 SaveState.Error(e.message.toString())
             }
 
         }
 
 
-
-
     }
-
-
-
-
 
 
 }

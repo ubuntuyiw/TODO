@@ -13,7 +13,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.ubuntuyouiwe.todo.data.dto.remote.Login
 import com.ubuntuyouiwe.todo.data.dto.remote.SignUp
 import com.ubuntuyouiwe.todo.data.dto.remote.TodoDto
-import com.ubuntuyouiwe.todo.data.dto.remote.TodoPreview
 import com.ubuntuyouiwe.todo.data.dto.remote.UserDto
 import com.ubuntuyouiwe.todo.domain.model.remote.TodoDomain
 import com.ubuntuyouiwe.todo.domain.repositroy.TodoRepository
@@ -30,7 +29,7 @@ class TodoRepositoryImpl @Inject constructor(
 
     init {
         val settings = firestoreSettings {
-            isPersistenceEnabled = true
+            isPersistenceEnabled = false
         }
         store.firestoreSettings = settings
     }
@@ -48,24 +47,18 @@ class TodoRepositoryImpl @Inject constructor(
     }
 
     override fun add(hashMap: HashMap<String, Any>): Resource<Boolean> {
-        Log.v("hata hata", "1")
-
         val resource = store.collection("Todo").add(hashMap)
-        Log.v("hata hata", "2")
         return if (resource.isSuccessful) {
-            Log.v("hata hata", "resource.exception?.message.toString()")
             Resource.Success(true)
-
-
         } else {
-            Log.v("hata hata", resource.exception?.message.toString())
             Resource.Error(resource.exception?.message.toString())
-
         }
     }
-    private fun pagingSourceFactory(): () ->TodoListPagingSource {
-        return {TodoListPagingSource(store.collection("Todo"))}
+
+    private fun pagingSourceFactory(): () -> TodoListPagingSource {
+        return { TodoListPagingSource(store.collection("Todo")) }
     }
+
     override fun getTodoList(): Flow<PagingData<TodoDomain>> {
         return Pager(
             config = PagingConfig(

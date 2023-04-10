@@ -33,9 +33,4 @@ class FirebaseModule {
         Firebase.storage
 
 
-
-
-
-
-
 }

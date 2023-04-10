@@ -7,9 +7,5 @@ class GetTodo @Inject constructor(
     private val repository: TodoRepository
 ) {
 
-    /*operator fun invoke(todoId: Int): Flow<TodoDomain> {
-        return repository.getTodo(todoId)
-
-    }*/
 
 }

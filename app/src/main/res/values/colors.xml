@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
-    <color name="colorBackground">#F5F5F5</color>
+    <!-- Arka plan rengi -->
+    <color name="color_background">#F5F5F5</color>
+
+    <!-- Yazı rengi -->
+    <color name="color_text">#333333</color>
+    <color name="color_text_alternate">#2E4A71</color>
+
+    <!-- Floating Action Button (Fab) rengi -->
+    <color name="color_fab">#4682B4</color>
+
+    <!-- Status bar rengi -->
+    <color name="color_status_bar">#3b6e8f</color>
+
+    <!-- Top bar ve bottom bar renkleri -->
+    <color name="color_top_bottom_bar">#2E4A71</color>
+    <!-- Navigation bar rengi -->
+    <color name="color_navigation_bar">#2E4A71</color>
+
 </resources>

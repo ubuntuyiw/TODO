@@ -13,14 +13,9 @@ class InsertTodo @Inject constructor(
     private val repository: TodoRepository
 ) {
     operator fun invoke(todo: TodoDomain) {
-        Log.v("hata hata", "-2")
         isTodoValid(todo)
-        Log.v("hata hata", "-1")
-
-
 
         repository.add(todo.toHashMap())
-        Log.v("hata hata", "0")
 
 
     }

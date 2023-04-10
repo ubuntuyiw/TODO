@@ -15,7 +15,7 @@ class GetTodoList @Inject constructor(
 
 
     operator fun invoke(): Flow<PagingData<TodoDomain>> = flow {
-        repository.getTodoList().collect{
+        repository.getTodoList().collect {
             emit(it)
         }
     }

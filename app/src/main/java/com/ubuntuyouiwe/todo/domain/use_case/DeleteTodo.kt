@@ -7,12 +7,5 @@ class DeleteTodo @Inject constructor(
     private val repository: TodoRepository
 ) {
 
-    /*suspend operator fun invoke(todo: TodoDomain) {
-
-        repository.deleteTodo(todo)
-
-    }*/
-
-
 
 }
