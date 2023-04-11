@@ -5,17 +5,24 @@
 
     <!-- Yazı rengi -->
     <color name="color_text">#333333</color>
-    <color name="color_text_alternate">#2E4A71</color>
+    <color name="color_text_alternate">#3b6e8f</color>
 
     <!-- Floating Action Button (Fab) rengi -->
-    <color name="color_fab">#4682B4</color>
+    <color name="color_fab">#3b6e8f</color>
 
     <!-- Status bar rengi -->
     <color name="color_status_bar">#3b6e8f</color>
 
     <!-- Top bar ve bottom bar renkleri -->
-    <color name="color_top_bottom_bar">#2E4A71</color>
+    <color name="color_top_bottom_bar">#3b6e8f</color>
     <!-- Navigation bar rengi -->
-    <color name="color_navigation_bar">#2E4A71</color>
+    <color name="color_navigation_bar">#3b6e8f</color>
+
+    <color name="white">#FFFFFF</color>
+
+
+
+
+
 
 </resources>

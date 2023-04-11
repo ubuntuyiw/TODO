@@ -36,7 +36,7 @@ class EditOrAddTodoFragment : Fragment(R.layout.fragment_edit_or_add_todo) {
 
         binding!!.saveSql.setOnClickListener {
             //findNavController().popBackStack()
-            viewModel.saveNote()
+
         }
     }
 

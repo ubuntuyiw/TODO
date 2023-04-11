@@ -7,7 +7,7 @@ buildscript {
         classpath(kotlin("serialization", version = kotlinVersion))
         classpath (libs.kotlin.serialization)
 
-        classpath ("com.google.gms:google-services:4.3.15")
+        classpath (libs.google.services)
 
 
     }

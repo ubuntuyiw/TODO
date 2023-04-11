@@ -32,10 +32,9 @@ fun TodoDto.toTodoDomain(): TodoDomain {
 }
 
 enum class NotificationOption {
-    ONE_HOUR_BEFORE,
-    RECURRING_HOURLY,
-    RECURRING_DAILY,
-    RECURRING_WEEKLY,
-    RECURRING_MONTHLY,
+    EVERY_DAY,
+    EVERY_WEEK,
+    MONTHLY,
+    EVERY_YEAR,
     NONE
 }
