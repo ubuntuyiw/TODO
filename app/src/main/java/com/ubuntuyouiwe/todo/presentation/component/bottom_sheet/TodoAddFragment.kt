@@ -9,7 +9,12 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.RadioButton
 import androidx.core.graphics.alpha
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -19,13 +24,15 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.ubuntuyouiwe.todo.R
 import com.ubuntuyouiwe.todo.databinding.FragmentItemListDialogListDialogBinding
+import com.ubuntuyouiwe.todo.presentation.component.notification.NotificationSharedViewModel
 import kotlinx.coroutines.launch
 
 class TodoAddFragment : BottomSheetDialogFragment() {
 
     var binding: FragmentItemListDialogListDialogBinding? = null
         private set
-
+    private val notificationState = ArrayList<String>()
+    private lateinit var notificationStateAdapter: ArrayAdapter<String>
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,71 +43,48 @@ class TodoAddFragment : BottomSheetDialogFragment() {
 
         val backgroundShape = MaterialShapeDrawable(
             ShapeAppearanceModel.builder()
-                .setAllCornerSizes(16f * resources.displayMetrics.density)
+                .setTopLeftCornerSize(16f * resources.displayMetrics.density)
+                .setTopRightCornerSize(16f * resources.displayMetrics.density)
                 .build()
         )
         backgroundShape.fillColor = binding?.root?.backgroundTintList
 
-
-        val backgroundColor = resources.getColor(R.color.color_background, context?.theme)
-
+        val backgroundColor = resources.getColor(R.color.white, context?.theme)
 
         backgroundShape.setTint(backgroundColor)
 
-
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#80000000")))
-
 
         dialog?.setOnShowListener { dialogInterface ->
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
             val bottomSheet =
                 bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
 
-
             val behavior = BottomSheetBehavior.from(bottomSheet!!)
             behavior.isHideable = true
+            behavior.isDraggable = false
+            behavior.peekHeight = resources.displayMetrics.heightPixels
 
 
 
-            /*behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                private var lastSlideOffset = 0f
-
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    if (newState == BottomSheetBehavior.STATE_DRAGGING && lastSlideOffset > 0.5) {
-                        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-                    }
-                }
-
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                    lastSlideOffset = slideOffset
-                }
-            })
-*/
-            val contentHeight = binding!!.scrollView.getChildAt(0).height
-
-            val scrollViewHeight = binding!!.scrollView.height
-
-            if (contentHeight > scrollViewHeight) {
-                binding!!.scrollView.setOnTouchListener { _, event ->
-                    when (event.action) {
-                        MotionEvent.ACTION_DOWN -> {
-                            behavior.isDraggable = false
-
-                        }
-
-                        MotionEvent.ACTION_UP -> {
-                            behavior.isDraggable = true
-
-                        }
-                    }
-
-                    false
-                }
-
-            } else {
-                behavior.isDraggable = true
-
+           /* binding!!.titleArea.setOnTouchListener { _, event ->
+                behaviorDraggable(event.action, behavior)
+                false
             }
+
+            binding!!.titleEditText.setOnTouchListener { _, event ->
+                behaviorDraggable(event.action, behavior)
+                false
+            }
+
+            binding!!.bottomSheetLine.setOnTouchListener { _, event ->
+                behaviorDraggable(event.action, behavior)
+                false
+            }
+            binding!!.saveTodo.setOnTouchListener { _, event ->
+                behaviorDraggable(event.action, behavior)
+                false
+            }*/
 
 
             bottomSheet.background = backgroundShape
@@ -110,34 +94,77 @@ class TodoAddFragment : BottomSheetDialogFragment() {
         return binding!!.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val navHostFragment = childFragmentManager.findFragmentById(R.id.navigatonNavhost) as NavHostFragment
-        val navController = navHostFragment.navController
-
-        binding!!.everyDay.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked){
-                navController.navigate(R.id.everDayFragment)
+    private fun behaviorDraggable(
+        eventAction: Int,
+        behaviorIsDraggable: BottomSheetBehavior<View>
+    ) {
+        when (eventAction) {
+            MotionEvent.ACTION_DOWN -> {
+                behaviorIsDraggable.isDraggable = true
+                Log.v("dedededede","true")
 
             }
-            Log.v("asdsdadsa",navController.toString())
+            MotionEvent.ACTION_UP -> {
+                behaviorIsDraggable.isDraggable = false
+                Log.v("dedededede","false")
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val navHostFragment =
+            childFragmentManager.findFragmentById(R.id.navigatonNavhost) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        val notificationSharedViewModel: NotificationSharedViewModel by activityViewModels()
+
+
+
+        notificationState.add("Every Day")
+        notificationState.add("Every Week")
+        notificationState.add("Monthly")
+        notificationState.add("Every Year")
+
+        notificationStateAdapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_2,android.R.id.text2,notificationState)
+        binding!!.notificationState.adapter = notificationStateAdapter
+
+        binding!!.notificationState.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (position == 0)
+                    navController.navigate(R.id.everDayFragment)
+                else if(position == 1)
+                    navController.navigate(R.id.everyWeekFragment)
+                else if(position == 2)
+                    navController.navigate(R.id.everyYearFragment)
+                else if(position == 3)
+                    navController.navigate(R.id.monthlyFragment)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                navController.navigate(R.id.everDayFragment)
+            }
 
         }
-        binding!!.everyWeek.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked)
-                navController.navigate(R.id.everyWeekFragment)
+        binding!!.saveTodo.setOnClickListener {
+            val state = notificationSharedViewModel.notificationState
+            val timestamp = notificationSharedViewModel.timestamp
+            Log.v("selamasd","${state.value} ${timestamp.value}")
+
         }
-        binding!!.everyYear.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked)
-                navController.navigate(R.id.everyYearFragment)
-        }
-        binding!!.monthly.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked)
-                navController.navigate(R.id.monthlyFragment)
-        }
+
+
+
+
+
+
 
 
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

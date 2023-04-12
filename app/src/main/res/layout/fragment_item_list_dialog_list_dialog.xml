@@ -1,283 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".presentation.component.bottom_sheet.TodoAddFragment">
 
-
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/titleAreaCardView"
+    <LinearLayout
+        android:id="@+id/titleArea"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardPreventCornerOverlap="true"
-        app:shapeAppearanceOverlay="@style/CustomCardViewCorners"
-        app:cardBackgroundColor="#FFFFFF"
-        app:strokeWidth="0dp"
-        android:elevation="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/titleArea"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/bottomSheetLine"
+            android:layout_width="60dp"
+            android:layout_height="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/line"
+            android:layout_gravity="center" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveTodo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_gravity="end"
+            android:text="Kaydet" />
+
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/titleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF" >
+            android:minHeight="60dp"
+            android:maxHeight="100dp"
+            android:paddingStart="16dp"
+            android:scrollbars="vertical"
+            android:paddingEnd="16dp"
+            android:inputType="textCapSentences|textMultiLine|textEnableTextConversionSuggestions"
+            android:singleLine="false"
+            android:maxLines="10"
+            android:hint="Insert Caption"
+            android:textStyle="bold"
+            android:background="@color/white"
+            android:nestedScrollingEnabled="true"
+            android:textSize="16sp" />
 
-            <View
-                android:id="@+id/view"
-                android:layout_width="30dp"
-                android:layout_height="4dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <View
+            android:id="@+id/titleLine"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/line" />
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout"
-                style="@style/NoBorderTextInputLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="16dp"
-                android:hint="Insert Caption"
-                app:boxBackgroundColor="@color/white"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                app:endIconMode="clear_text"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/saveTodo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textCapSentences"
-                    android:singleLine="false"
-                    android:maxLines="5"
-                    android:textStyle="bold"
-                    android:textSize="18sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/saveTodo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textSize="18sp"
-                android:text="Kaydet"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view"/>
-
-
-            <View
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/line"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </com.google.android.material.card.MaterialCardView>
-
+    </LinearLayout>
 
 
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleAreaCardView">
+        android:layout_width="match_parent"
+        android:focusableInTouchMode="true"
+        android:nestedScrollingEnabled="true"
+        android:fillViewport="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/contentArea"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:background="@color/white"
-            android:layout_height="wrap_content">
+            android:orientation="vertical"
+            android:nestedScrollingEnabled="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
 
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/contentTextInput"
-                style="@style/NoBorderTextInputLayout"
-                android:layout_width="0dp"
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/contentEditText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:minHeight="100dp"
+                android:maxHeight="150dp"
+                android:inputType="textCapSentences|textMultiLine|textEnableTextConversionSuggestions"
+                android:singleLine="false"
+                android:maxLines="10"
+                android:gravity="top|start"
                 android:hint="Content"
-                app:boxBackgroundColor="@color/color_background"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="150dp"
-                    android:gravity="top|start"
-                    android:inputType="textCapSentences|textMultiLine|textEnableTextConversionSuggestions "
-                    android:singleLine="false"
-                    android:textSize="14sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <TextView
-                android:id="@+id/textView21"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="700dp"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/dateText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Date"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/deadline" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <Button
-                android:id="@+id/timeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Time"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toBottomOf="@+id/deadline" />
-
-            <View
-                android:id="@+id/content"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@drawable/line"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/contentTextInput" />
-
-            <TextView
-                android:id="@+id/deadline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Deadline"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toBottomOf="@+id/content" />
+                android:textStyle="normal"
+                android:background="@color/white"
+                android:nestedScrollingEnabled="true"
+                android:textSize="14sp" />
 
 
             <View
-                android:id="@+id/notification"
+                android:id="@+id/contentLine"
+                android:paddingTop="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dateText" />
+                android:layout_height="2dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/line" />
+
+             <LinearLayout
+                 android:id="@id/deadlineLine"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal"
+
+                 >
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Deadline:"
+                     android:textSize="15sp"
+                     android:layout_weight="25"
+                     android:textColor="@color/color_status_bar"
+                     android:padding="8dp" />
+
+                 <Button
+                     android:id="@+id/dedlineDate"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="25"
+                     android:textSize="16dp"
+                     android:text="Date"
+                     android:layout_marginStart="32dp"/>
+
+                 <Button
+                     android:id="@+id/deadlineTime"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="25"
+                     android:textSize="16dp"
+                     android:text="Time"
+                     android:layout_marginStart="32dp"/>
+
+             </LinearLayout>
+
+            <View
+                android:id="@+id/deadlineLine"
+                android:layout_marginBottom="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@drawable/line" />
 
             <TextView
-                android:id="@+id/notificationState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Notification"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toBottomOf="@+id/notification" />
+                android:text="Notification:"
+                android:textSize="15sp"
+                android:textColor="@color/color_status_bar"
+                android:padding="8dp" />
 
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/navigatonNavhostArea"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toBottomOf="@+id/notificationState">
+                android:orientation="vertical">
+                <Spinner
+                    android:id="@+id/notificationState"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
-                <RadioButton
-                    android:id="@+id/everyDay"
+
+
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/navigatonNavhost"
+                    android:name="androidx.navigation.fragment.NavHostFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="Every Day" />
+                    app:defaultNavHost="true"
+                    app:navGraph="@navigation/navigation_state_nav" />
 
-                <RadioButton
-                    android:id="@+id/everyWeek"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Every Week" />
 
-                <RadioButton
-                    android:id="@+id/monthly"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Every Monthly" />
 
-                <RadioButton
-                    android:id="@+id/everyYear"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Every Year" />
-            </RadioGroup>
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/navigatonNavhost"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                app:defaultNavHost="true"
-                app:layout_constraintBottom_toBottomOf="@+id/radioGroup"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/notificationState"
-                app:navGraph="@navigation/navigation_state_nav" />
+            </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+        </LinearLayout>
+
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</LinearLayout>
