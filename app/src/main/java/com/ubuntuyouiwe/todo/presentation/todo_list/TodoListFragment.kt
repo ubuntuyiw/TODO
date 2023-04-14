@@ -1,26 +1,25 @@
 package com.ubuntuyouiwe.todo.presentation.todo_list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ubuntuyouiwe.todo.R
 import com.ubuntuyouiwe.todo.databinding.FragmentTodoListBinding
-import com.ubuntuyouiwe.todo.presentation.component.bottom_sheet.TodoAddFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
     private lateinit var todoListAdapter: TodoListAdapter
-    private lateinit var dialog: BottomSheetDialog
     override fun onStart() {
         super.onStart()
 
@@ -44,7 +43,6 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val viewModel: TodoListViewModel by hiltNavGraphViewModels(R.id.nav_graph)
-
 
 
 
@@ -80,15 +78,24 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
             }
         }
 
+        todoListAdapter.setOnItemClickListener { uuID, title, content, deadline ->
+            findNavController().navigate(
+                TodoListFragmentDirections.actionTodoListFragmentToEditOrAddTodoFragment(
+                    uuID = uuID?:"null",
+                    title = title?:"null",
+                    content = content?:"null",
+                    deadline = deadline!!
+                )
+            )
+
+        }
+
 
         binding!!.floatingActionButton.setOnClickListener {
-            //findNavController().navigate(TodoListFragmentDirections.actionTodoListFragmentToEditOrAddTodoFragment(name = "ahmet"))
+
+            //findNavController().navigate(TodoListFragmentDirections.actionTodoListFragmentToEditOrAddTodoFragment(title = viewModel., content = ))
             //todoListAdapter.retry()
-            val bottomSheetFragment = TodoAddFragment()
-            bottomSheetFragment.show(
-                requireActivity().supportFragmentManager,
-                "myBottomSheetFragment"
-            )
+
         }
 
 

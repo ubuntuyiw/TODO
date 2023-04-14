@@ -9,12 +9,10 @@ data class TodoDomain(
     val title: String?,
     val content: String?,
     val deadline: Timestamp?,
-    val notificationOption: NotificationOption?,
     val isDone: Boolean?,
     val isFavorite: Boolean?,
     val isPinned: Boolean?,
     val createdAt: Timestamp?,
-    val updatedAt: Timestamp?
 
 )
 class InvalidTodoException(val fieldType: InvalidTodoFieldType, message: String): Exception(message)
@@ -22,7 +20,6 @@ enum class InvalidTodoFieldType {
     TITLE,
     CONTENT,
     DEADLINE,
-    NOTIFICATION_OPTION,
     IS_DONE,
     IS_FAVORITE,
     IS_PINNED,
@@ -34,12 +31,10 @@ fun TodoDomain.toHashMap(): HashMap<String,Any> {
     map["title"] = title!!
     map["content"] = content!!
     map["deadline"] = deadline!!
-    map["notificationOption"] = notificationOption!!
     map["isDone"] = isDone!!
     map["isFavorite"] = isFavorite!!
     map["isPinned"] = isPinned!!
     map["createdAt"] = createdAt!!
-    map["updatedAt"] = updatedAt!!
     return map
 }
 fun TodoDomain.toTodoDto(): TodoDto {
@@ -48,12 +43,10 @@ fun TodoDomain.toTodoDto(): TodoDto {
         title = title,
         content =content,
         deadline = deadline,
-        notificationOption = notificationOption,
         isDone = isDone,
         isFavorite = isFavorite,
         isPinned = isPinned,
         createdAt = createdAt,
-        updatedAt = updatedAt
 
     )
 }

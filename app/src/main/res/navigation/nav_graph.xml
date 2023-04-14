@@ -13,8 +13,8 @@
         <action
             android:id="@+id/action_todoListFragment_to_editOrAddTodoFragment"
             app:destination="@id/editOrAddTodoFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/scale_in"
+            app:popExitAnim="@anim/scale_out" />
     </fragment>
     <fragment
         android:id="@+id/editOrAddTodoFragment"
@@ -22,8 +22,19 @@
         android:label="EditOrAddTodoFragment"
         tools:layout="@layout/fragment_edit_or_add_todo">
         <argument
-            android:name="name"
+            android:name="title"
             app:argType="string"
-            android:defaultValue="empity" />
+            app:nullable="true" />
+        <argument
+            android:name="content"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="deadline"
+            app:argType="com.google.firebase.Timestamp" />
+        <argument
+            android:name="uuID"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

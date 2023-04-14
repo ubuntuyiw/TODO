@@ -6,6 +6,8 @@
         <!-- Primary color (top and bottom bars) -->
         <item name="colorPrimary">@color/color_top_bottom_bar</item>
 
+
+
         <!-- Floating Action Button color -->
         <item name="colorSecondary">@color/color_fab</item>
 
@@ -13,32 +15,39 @@
         <item name="android:statusBarColor">@color/color_status_bar</item>
 
         <!-- Text colors -->
-        <item name="android:textColor">@color/color_text</item>
-        <item name="android:textColorSecondary">@color/color_text_alternate</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textColorPrimary">@color/white</item>
 
         <!-- Background color -->
         <item name="android:colorBackground">@color/color_background</item>
 
-        <item name="android:navigationBarColor">@color/color_navigation_bar</item>
+        <item name="android:navigationBarColor">@color/white</item>
 
 
-    </style>
-
-    <style name="CustomCardViewCorners">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopRight">16dp</item>
-        <item name="cornerSizeTopLeft">16dp</item>
-        <item name="cornerSizeBottomRight">0dp</item>
-        <item name="cornerSizeBottomLeft">0dp</item>
-    </style>
-
-    <style name="NoBorderTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@android:color/transparent</item>
-        <item name="boxStrokeWidth">0dp</item>
     </style>
 
 
     <style name="Theme.TODO" parent="Base.Theme.TODO" />
+
+
+    <style name="AppDatePickerDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <!-- DatePickerDialog için özelleştirmelerinizi burada yapabilirsiniz -->
+        <item name="colorAccent">@color/color_fab</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <!-- Diğer özellikler -->
+    </style>
+
+    <style name="AppTimePickerDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <!-- TimePickerDialog için özelleştirmelerinizi burada yapabilirsiniz -->
+        <item name="colorAccent">@color/color_fab</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <!-- Diğer özellikler -->
+    </style>
 
 
 </resources>

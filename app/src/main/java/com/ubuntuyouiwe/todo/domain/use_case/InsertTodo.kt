@@ -31,11 +31,6 @@ class InsertTodo @Inject constructor(
         if (todo.deadline == null)
             throw InvalidTodoException(InvalidTodoFieldType.DEADLINE, "deadline null")
 
-        if (todo.notificationOption == null)
-            throw InvalidTodoException(
-                InvalidTodoFieldType.NOTIFICATION_OPTION,
-                "notificationOption null"
-            )
 
         if (todo.isDone == null)
             throw InvalidTodoException(InvalidTodoFieldType.IS_DONE, "isDone null")
@@ -49,8 +44,6 @@ class InsertTodo @Inject constructor(
         if (todo.createdAt == null)
             throw InvalidTodoException(InvalidTodoFieldType.CREATED_AT, "createdAt null")
 
-        if (todo.updatedAt == null)
-            throw InvalidTodoException(InvalidTodoFieldType.UPDATE_AT, "updatedAt null")
 
 
     }

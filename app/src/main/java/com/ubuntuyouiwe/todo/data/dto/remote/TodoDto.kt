@@ -8,12 +8,10 @@ data class TodoDto(
     val title: String? = null,
     val content: String? = null,
     val deadline: Timestamp? = null,
-    val notificationOption: NotificationOption? = null,
     val isDone: Boolean? = null,
     val isFavorite: Boolean? = null,
     val isPinned: Boolean? = null,
     val createdAt: Timestamp? = null,
-    val updatedAt: Timestamp? = null
 )
 
 
@@ -22,12 +20,10 @@ fun TodoDto.toTodoDomain(): TodoDomain {
         title = title,
         content = content,
         deadline = deadline,
-        notificationOption = notificationOption,
         isDone = isDone,
         isFavorite = isFavorite,
         isPinned = isPinned,
         createdAt = createdAt,
-        updatedAt = updatedAt
     )
 }
 

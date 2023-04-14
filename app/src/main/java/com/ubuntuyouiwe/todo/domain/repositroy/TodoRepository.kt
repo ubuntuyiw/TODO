@@ -29,5 +29,7 @@ interface TodoRepository {
 
     suspend fun getOtherUsers(query: Query): Flow<Resource<List<UserDto>>>
 
+    fun updateTodo(todoUUID: String, hashMap: HashMap<String, Any>): Flow<Resource<Boolean>>
+
 
 }

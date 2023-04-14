@@ -18,6 +18,7 @@ import com.ubuntuyouiwe.todo.domain.model.remote.TodoDomain
 import com.ubuntuyouiwe.todo.domain.repositroy.TodoRepository
 import com.ubuntuyouiwe.todo.util.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class TodoRepositoryImpl @Inject constructor(
@@ -47,8 +48,15 @@ class TodoRepositoryImpl @Inject constructor(
     }
 
     override fun add(hashMap: HashMap<String, Any>): Resource<Boolean> {
-        val resource = store.collection("Todo").add(hashMap)
+        val resource = store.collection("Todo").add(hashMap).addOnSuccessListener {
+        val hashMapForId = HashMap<String,Any>()
+
+        hashMapForId["uuid"] = it.id
+            it.update(hashMapForId)
+        }
+
         return if (resource.isSuccessful) {
+
             Resource.Success(true)
         } else {
             Resource.Error(resource.exception?.message.toString())
@@ -76,6 +84,17 @@ class TodoRepositoryImpl @Inject constructor(
 
     override suspend fun getOtherUsers(query: Query): Flow<Resource<List<UserDto>>> {
         TODO("Not yet implemented")
+    }
+
+    override fun updateTodo(todoUUID: String,hashMap: HashMap<String, Any>): Flow<Resource<Boolean>> {
+        val resource = store.collection("Todo").document(todoUUID).update(hashMap)
+
+        return flow {
+            if (resource.isSuccessful)
+                Resource.Success(true)
+            else Resource.Error(resource.exception?.message.toString())
+        }
+
     }
 
 
