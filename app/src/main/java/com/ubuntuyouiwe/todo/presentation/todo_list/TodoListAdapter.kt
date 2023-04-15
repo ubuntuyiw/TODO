@@ -1,5 +1,6 @@
 package com.ubuntuyouiwe.todo.presentation.todo_list
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class TodoListAdapter : PagingDataAdapter<TodoDomain, TodoListAdapter.ListTodoAd
 
         fun bindMovie(item: TodoDomain,view: View) = with(binding) {
             binding.titleTextView.text = item.title
+            Log.v("UUID.value!!","adapter: "+item.uuid.toString())
 
             val date = Date(item.deadline!!.seconds * 1000 + item.deadline.nanoseconds / 1000000)
 
@@ -40,7 +42,7 @@ class TodoListAdapter : PagingDataAdapter<TodoDomain, TodoListAdapter.ListTodoAd
 
             view.setOnClickListener {
                 onItemClickListener?.let {
-                    it(item.uuID,item.title,item.content,item.deadline)
+                    it(item.uuid,item.title,item.content,item.deadline)
                 }
             }
 
@@ -57,7 +59,7 @@ class TodoListAdapter : PagingDataAdapter<TodoDomain, TodoListAdapter.ListTodoAd
             newItem: TodoDomain
         ): Boolean {
 
-            return oldItem.uuID == newItem.uuID
+            return oldItem.uuid == newItem.uuid
 
         }
 

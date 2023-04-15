@@ -4,16 +4,14 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.firebase.Timestamp
 import com.ubuntuyouiwe.todo.R
@@ -28,9 +26,6 @@ import java.util.Locale
 class EditOrAddTodoFragment : Fragment(R.layout.fragment_edit_or_add_todo) {
 
     private var binding: FragmentEditOrAddTodoBinding? = null
-
-    private val notificationState = ArrayList<String>()
-    private lateinit var notificationStateAdapter: ArrayAdapter<String>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,74 +43,42 @@ class EditOrAddTodoFragment : Fragment(R.layout.fragment_edit_or_add_todo) {
         val viewModel: EditOrAddTodoViewModel by viewModels()
 
 
-        val bundle: EditOrAddTodoFragmentArgs by navArgs()
-
         binding!!.titleEditText.setText(viewModel.title.value)
         binding!!.contentEditText.setText(viewModel.content.value)
+        val asd = viewModel.deadline.value
 
 
-        val deadline = Date(viewModel.deadline.value!!.seconds * 1000 + viewModel.deadline.value!!.nanoseconds / 1000000)
-
-        val formatter = SimpleDateFormat("yyyy MMM dd HH:mm", Locale.getDefault())
-        val formattedDate = formatter.format(deadline)
-        
-        binding!!.deadlineTextView.text = formattedDate
+        binding!!.deadlineTextView.text =
+            viewModel.deadline.value?.timestampToString() ?: "Task Completion Time"
 
 
 
 
-        notificationState.add("Every Day")
-        notificationState.add("Every Week")
-        notificationState.add("Monthly")
-        notificationState.add("Every Year")
 
-        notificationStateAdapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_list_item_2,
-            android.R.id.text2,
-            notificationState
-        )
+        binding!!.efaSave.setOnClickListener {
+            viewModel.title.value = binding!!.titleEditText.text.toString()
+            viewModel.content.value = binding!!.contentEditText.text.toString()
+            viewModel.deadline.value =
+                binding!!.deadlineTextView.text.toString().stringToTimestamp()
 
 
-        binding!!.materialToolbar.title = "Edit"
-        binding!!.materialToolbar.inflateMenu(R.menu.edit_or_add_menu)
-
-
-        binding!!.materialToolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.actionTodoSave -> {
-                    viewModel.title.value = binding!!.titleEditText.text.toString()
-                    viewModel.content.value = binding!!.contentEditText.text.toString()
-
-                    viewModel.event(EditOrAddEvent.SaveTodo)
-
-                    true
-                }
-
-                R.id.actionTodoDelete -> {
-
-                    true
-                }
-
-
-                else -> false
-
-            }
+            if (viewModel.UUID.value != null)
+                viewModel.event(EditOrAddEvent.UpdateTodo)
+            else
+                viewModel.event(EditOrAddEvent.SaveTodo)
+            findNavController().popBackStack()
         }
 
 
-
-
-        val timeFormat = SimpleDateFormat("yyyy MMM dd HH:mm", Locale.getDefault())
-
         val date = Timestamp.now().toDate()
+
         val calendar = Calendar.getInstance()
         calendar.time = date
 
         binding!!.deadlineLine.setOnClickListener {
 
-            datePickerDialog(calendar) {view, year, month, dayOfMonth ->
-                timePickerDialog(calendar, year, month, dayOfMonth, timeFormat)
+            datePickerDialog(calendar) { view, year, month, dayOfMonth ->
+                timePickerDialog(calendar, year, month, dayOfMonth)
             }
 
         }
@@ -123,7 +86,7 @@ class EditOrAddTodoFragment : Fragment(R.layout.fragment_edit_or_add_todo) {
 
     private fun datePickerDialog(
         calendar: Calendar,
-        click: (DatePicker,Int,Int,Int) -> Unit
+        click: (DatePicker, Int, Int, Int) -> Unit
     ) {
         val datePickerDialog = DatePickerDialog(
             requireContext(),
@@ -147,10 +110,7 @@ class EditOrAddTodoFragment : Fragment(R.layout.fragment_edit_or_add_todo) {
         year: Int,
         month: Int,
         dayOfMonth: Int,
-        simpleDateFormat: SimpleDateFormat
     ) {
-        val viewModel: EditOrAddTodoViewModel by hiltNavGraphViewModels(R.id.nav_graph)
-
         val timePicker = TimePickerDialog(
             requireContext(),
             R.style.AppTimePickerDialogTheme,
@@ -161,15 +121,8 @@ class EditOrAddTodoFragment : Fragment(R.layout.fragment_edit_or_add_todo) {
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendar.set(Calendar.MINUTE, minute)
 
-                val formattedTime = simpleDateFormat.format(calendar.time)
 
-                binding!!.deadlineTextView.text = formattedTime
-
-                val selectedDate = calendar.time
-
-                val firebaseTimestamp = Timestamp(selectedDate)
-
-                viewModel.deadline.value = firebaseTimestamp
+                binding!!.deadlineTextView.text = calendar.time.dateToString()
 
             },
             calendar.get(Calendar.HOUR_OF_DAY),
@@ -182,6 +135,28 @@ class EditOrAddTodoFragment : Fragment(R.layout.fragment_edit_or_add_todo) {
         timePicker.setButton(DialogInterface.BUTTON_NEGATIVE, "iptal", timePicker)
         timePicker.show()
 
+    }
+
+
+    private fun Date.dateToString(): String {
+        val timeFormat = SimpleDateFormat("yyyy MMM dd HH:mm", Locale.getDefault())
+
+        return timeFormat.format(this)
+    }
+
+
+    private fun Timestamp.timestampToString(): String {
+        val timeFormat = SimpleDateFormat("yyyy MMM dd HH:mm", Locale.getDefault())
+        val date = Date(this.seconds * 1000 + this.nanoseconds / 1000000)
+
+        return timeFormat.format(date)
+    }
+
+    private fun String.stringToTimestamp(): Timestamp {
+        val timeFormat = SimpleDateFormat("yyyy MMM dd HH:mm", Locale.getDefault())
+        val date = timeFormat.parse(this)
+
+        return Timestamp(date!!)
     }
 
 

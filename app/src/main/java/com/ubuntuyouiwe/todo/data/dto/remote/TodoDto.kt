@@ -4,7 +4,7 @@ import com.google.firebase.Timestamp
 import com.ubuntuyouiwe.todo.domain.model.remote.TodoDomain
 
 data class TodoDto(
-    val uuID: String? = null,
+    val uuid: String? = null,
     val title: String? = null,
     val content: String? = null,
     val deadline: Timestamp? = null,
@@ -17,6 +17,7 @@ data class TodoDto(
 
 fun TodoDto.toTodoDomain(): TodoDomain {
     return TodoDomain(
+        uuid = uuid,
         title = title,
         content = content,
         deadline = deadline,

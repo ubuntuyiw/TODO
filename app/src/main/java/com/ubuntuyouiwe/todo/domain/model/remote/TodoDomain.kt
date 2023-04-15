@@ -5,7 +5,7 @@ import com.ubuntuyouiwe.todo.data.dto.remote.NotificationOption
 import com.ubuntuyouiwe.todo.data.dto.remote.TodoDto
 
 data class TodoDomain(
-    val uuID: String? = null,
+    val uuid: String? ,
     val title: String?,
     val content: String?,
     val deadline: Timestamp?,
@@ -28,6 +28,7 @@ enum class InvalidTodoFieldType {
 }
 fun TodoDomain.toHashMap(): HashMap<String,Any> {
     val map = HashMap<String,Any>()
+    map["uuid"] = uuid!!
     map["title"] = title!!
     map["content"] = content!!
     map["deadline"] = deadline!!
@@ -39,7 +40,7 @@ fun TodoDomain.toHashMap(): HashMap<String,Any> {
 }
 fun TodoDomain.toTodoDto(): TodoDto {
     return TodoDto(
-        uuID = uuID,
+        uuid = uuid,
         title = title,
         content =content,
         deadline = deadline,

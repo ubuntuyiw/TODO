@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,10 +30,11 @@ class EditOrAddTodoViewModel @Inject constructor(
         private set
     var content = MutableStateFlow<String?>(null)
         private set
-
+    var UUID = MutableStateFlow<String?>(null)
+        private set
     init {
         savedStateHandle.get<String>("title")?.let {
-                title.value = it
+            title.value = it
         }
         savedStateHandle.get<String>("content")?.let {
             content.value = it
@@ -41,8 +43,12 @@ class EditOrAddTodoViewModel @Inject constructor(
 
             deadline.value = it
         }
-    }
 
+        savedStateHandle.get<String>("uuID")?.let {
+
+            UUID.value = it
+        }
+    }
 
 
     fun event(event: EditOrAddEvent) {
@@ -50,7 +56,30 @@ class EditOrAddTodoViewModel @Inject constructor(
         when (event) {
             is EditOrAddEvent.SaveTodo -> {
 
-                todoUseCase.insertTodo(TodoDomain(
+                todoUseCase.insertTodo(
+                    TodoDomain(
+                        uuid = null,
+                        title = title.value,
+                        content = content.value,
+                        deadline = deadline.value,
+                        createdAt = Timestamp.now(),
+                        isDone = false,
+                        isFavorite = false,
+                        isPinned = false,
+                    )
+                )
+
+            }
+
+            is EditOrAddEvent.DeleteTodo -> {
+
+
+            }
+
+            is EditOrAddEvent.UpdateTodo -> {
+                Log.v("UUID.value!!",UUID.value!!.toString())
+                todoUseCase.updateTodo(UUID.value!!, TodoDomain(
+                    uuid = UUID.value,
                     title = title.value,
                     content = content.value,
                     deadline = deadline.value,
@@ -60,12 +89,6 @@ class EditOrAddTodoViewModel @Inject constructor(
                     isPinned = false,
                 ))
 
-            }
-            is EditOrAddEvent.DeleteTodo -> {
-
-
-            }
-            is EditOrAddEvent.UpdateTodo -> {
 
 
 
@@ -73,14 +96,7 @@ class EditOrAddTodoViewModel @Inject constructor(
         }
 
 
-
     }
-
-
-
-
-
-
 
 
 }

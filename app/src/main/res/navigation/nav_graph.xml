@@ -24,17 +24,22 @@
         <argument
             android:name="title"
             app:argType="string"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null"/>
         <argument
             android:name="content"
             app:argType="string"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null"/>
         <argument
             android:name="deadline"
-            app:argType="com.google.firebase.Timestamp" />
+            app:argType="com.google.firebase.Timestamp"
+            app:nullable="true"
+            android:defaultValue="@null"/>
         <argument
             android:name="uuID"
             app:argType="string"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null"/>
     </fragment>
 </navigation>

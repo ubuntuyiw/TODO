@@ -1,6 +1,7 @@
 package com.ubuntuyouiwe.todo.presentation.todo_list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,7 +80,9 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
         }
 
         todoListAdapter.setOnItemClickListener { uuID, title, content, deadline ->
+            Log.v("UUID.value!!",uuID.toString())
             findNavController().navigate(
+
                 TodoListFragmentDirections.actionTodoListFragmentToEditOrAddTodoFragment(
                     uuID = uuID?:"null",
                     title = title?:"null",
@@ -93,7 +96,7 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
 
         binding!!.floatingActionButton.setOnClickListener {
 
-            //findNavController().navigate(TodoListFragmentDirections.actionTodoListFragmentToEditOrAddTodoFragment(title = viewModel., content = ))
+            findNavController().navigate(TodoListFragmentDirections.actionTodoListFragmentToEditOrAddTodoFragment())
             //todoListAdapter.retry()
 
         }

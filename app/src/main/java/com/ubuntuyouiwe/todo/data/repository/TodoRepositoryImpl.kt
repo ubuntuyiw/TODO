@@ -49,9 +49,10 @@ class TodoRepositoryImpl @Inject constructor(
 
     override fun add(hashMap: HashMap<String, Any>): Resource<Boolean> {
         val resource = store.collection("Todo").add(hashMap).addOnSuccessListener {
-        val hashMapForId = HashMap<String,Any>()
+            val hashMapForId = HashMap<String, Any>()
 
-        hashMapForId["uuid"] = it.id
+            hashMapForId["uuid"] = it.id
+
             it.update(hashMapForId)
         }
 
@@ -86,7 +87,10 @@ class TodoRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun updateTodo(todoUUID: String,hashMap: HashMap<String, Any>): Flow<Resource<Boolean>> {
+    override fun updateTodo(
+        todoUUID: String,
+        hashMap: HashMap<String, Any>
+    ): Flow<Resource<Boolean>> {
         val resource = store.collection("Todo").document(todoUUID).update(hashMap)
 
         return flow {
