@@ -1,15 +1,19 @@
 package com.ubuntuyouiwe.todo.data.repository
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.Source
 import com.ubuntuyouiwe.todo.data.dto.remote.TodoDto
 import com.ubuntuyouiwe.todo.data.dto.remote.toTodoDomain
 import com.ubuntuyouiwe.todo.domain.model.remote.TodoDomain
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
-import javax.inject.Inject
 
 class TodoListPagingSource constructor(
     private val query: Query
@@ -31,14 +35,16 @@ class TodoListPagingSource constructor(
         return null
     }
 
-    override suspend fun load(params: LoadParams<QuerySnapshot>): LoadResult<QuerySnapshot, TodoDomain> {
 
+
+    override suspend fun load(params: LoadParams<QuerySnapshot>): LoadResult<QuerySnapshot, TodoDomain> {
         return try {
 
-            val currentPage = params.key ?: query.get().await()
+
+            val currentPage = params.key ?:query.get(Source.CACHE).await()
 
             val lastVisibleTodo = currentPage.documents[currentPage.size() - 1]
-            val nextPage = query.startAfter(lastVisibleTodo).get().await()
+            val nextPage = query.startAfter(lastVisibleTodo).get(Source.CACHE).await()
 
 
             LoadResult.Page(

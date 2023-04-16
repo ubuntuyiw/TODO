@@ -58,7 +58,7 @@ class EditOrAddTodoViewModel @Inject constructor(
 
                 todoUseCase.insertTodo(
                     TodoDomain(
-                        uuid = null,
+                        uuid = "null",
                         title = title.value,
                         content = content.value,
                         deadline = deadline.value,

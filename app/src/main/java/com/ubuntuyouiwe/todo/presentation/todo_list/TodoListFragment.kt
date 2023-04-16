@@ -1,5 +1,6 @@
 package com.ubuntuyouiwe.todo.presentation.todo_list
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import com.ubuntuyouiwe.todo.R
 import com.ubuntuyouiwe.todo.databinding.FragmentTodoListBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +56,52 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
 
 
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            todoListAdapter.loadStateFlow.collect {
+                when (it.source.refresh) {
+                    is LoadState.Loading -> {
+                        Log.v("loadStateDeneme","loading")
+                    }
+                    is LoadState.Error -> {
+                        Log.v("loadStateDeneme","Error")
+                    }
+                    is LoadState.NotLoading -> {
+                        Log.v("loadStateDeneme","NotLoading")
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            todoListAdapter.loadStateFlow.collect {
+                when (it.mediator?.refresh!!) {
+                    is LoadState.Loading -> {
+                        binding!!.progressBar.visibility = View.VISIBLE
+                    }
+                    is LoadState.Error -> {
+                        binding!!.progressBar.visibility = View.INVISIBLE
+                        Snackbar.make(binding!!.todoRecyclerList, "Bağlantı sorunu lütfen tekrar deneyin", Snackbar.LENGTH_INDEFINITE)
+                            .setAction("Retry") {
+                                todoListAdapter.retry()
+                            }
+                            .setBackgroundTint(Color.WHITE)
+                            .setTextColor(Color.BLACK)
+                            .setActionTextColor(Color.BLACK)
+                            .show()
+
+                    }
+                    is LoadState.NotLoading -> {
+                        binding!!.progressBar.visibility = View.INVISIBLE
+
+
+                    }
+                }
+            }
+        }
+
+
+
+
 
         viewLifecycleOwner.lifecycleScope.launch {
 
@@ -63,21 +111,6 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
 
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            todoListAdapter.loadStateFlow.collect {
-                when (val refresh = it.refresh) {
-                    is LoadState.Loading -> {
-                    }
-
-                    is LoadState.Error -> {
-
-                    }
-
-                    is LoadState.NotLoading -> {
-                    }
-                }
-            }
-        }
 
         todoListAdapter.setOnItemClickListener { uuID, title, content, deadline ->
             Log.v("UUID.value!!",uuID.toString())
