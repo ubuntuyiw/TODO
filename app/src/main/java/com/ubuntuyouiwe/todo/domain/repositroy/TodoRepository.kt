@@ -22,7 +22,8 @@ interface TodoRepository {
 
     fun add(hashMap: HashMap<String, Any>): Resource<Boolean>
 
-    fun getTodoList(): Flow<PagingData<TodoDomain>>
+   fun getTodoList(): Flow<PagingData<TodoDomain>>
+
 
     suspend fun getTodo(query: Query): Flow<Resource<TodoDto>>
 

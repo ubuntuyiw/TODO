@@ -1,6 +1,7 @@
 package com.ubuntuyouiwe.todo.domain.use_case
 
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.google.firebase.firestore.Query
 import com.ubuntuyouiwe.todo.domain.model.remote.TodoDomain
 import com.ubuntuyouiwe.todo.domain.repositroy.TodoRepository
@@ -14,10 +15,8 @@ class GetTodoList @Inject constructor(
 ) {
 
 
-    operator fun invoke(): Flow<PagingData<TodoDomain>> = flow {
-        repository.getTodoList().collect {
-            emit(it)
-        }
+    operator fun invoke(): Flow<PagingData<TodoDomain>> {
+        return repository.getTodoList()
     }
 
 

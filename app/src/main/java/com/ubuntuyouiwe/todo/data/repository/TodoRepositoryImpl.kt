@@ -1,6 +1,5 @@
 package com.ubuntuyouiwe.todo.data.repository
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -9,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.storage.FirebaseStorage
 import com.ubuntuyouiwe.todo.data.dto.remote.Login
@@ -26,16 +26,11 @@ class TodoRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private val store: FirebaseFirestore,
     private val storage: FirebaseStorage,
+    private val query: Query,
 ) : TodoRepository {
 
 
-    init {
-        val settings = firestoreSettings {
-            isPersistenceEnabled = true
 
-        }
-        store.firestoreSettings = settings
-    }
 
     override fun singUp(signUp: SignUp): Flow<Resource<Boolean>> {
         TODO("Not yet implemented")
@@ -66,27 +61,26 @@ class TodoRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun pagingSourceFactory(): () -> TodoListPagingSource {
-        return { TodoListPagingSource(store.collection("Todo").limit(20).orderBy("title",Query.Direction.ASCENDING)) }
-    }
-
-
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getTodoList(): Flow<PagingData<TodoDomain>> {
         return Pager(
-
             config = PagingConfig(
                 pageSize = 20,
                 prefetchDistance = 5,
                 enablePlaceholders = false
             ),
-            remoteMediator = TodoListRemoteMediator(store.collection("Todo").limit(20).orderBy("title",Query.Direction.ASCENDING)),
-            pagingSourceFactory = pagingSourceFactory()
+            pagingSourceFactory = { TodoListPagingSource(query) },
+
+            remoteMediator = TodoListRemoteMediator(query),
         ).flow
     }
 
+
+
+
     override suspend fun getTodo(query: Query): Flow<Resource<TodoDto>> {
+
         TODO("Not yet implemented")
     }
 

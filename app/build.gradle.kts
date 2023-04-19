@@ -81,6 +81,7 @@ dependencies {
     annotationProcessor (libs.androidx.room.compiler)
     kapt("androidx.room:room-compiler:2.5.1")
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
 
     //Paging3
     implementation(libs.androidx.paging.runtime.ktx)

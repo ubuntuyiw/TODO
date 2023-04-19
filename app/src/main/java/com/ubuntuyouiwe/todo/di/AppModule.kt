@@ -2,7 +2,9 @@ package com.ubuntuyouiwe.todo.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.storage.FirebaseStorage
 import com.ubuntuyouiwe.todo.data.repository.TodoListPagingSource
 import com.ubuntuyouiwe.todo.data.repository.TodoRepositoryImpl
@@ -31,8 +33,18 @@ object AppModule {
         auth: FirebaseAuth,
         store: FirebaseFirestore,
         storage: FirebaseStorage,
-    ): TodoRepository =
-        TodoRepositoryImpl(auth, store, storage)
+    ): TodoRepository {
+
+        store.firestoreSettings = firestoreSettings {
+            isPersistenceEnabled = true
+        }
+
+        val query = store.collection("Todo")
+            .limit(20).orderBy("deadline", Query.Direction.ASCENDING)
+
+        return TodoRepositoryImpl(auth, store, storage,query)
+    }
+
 
 
     @Singleton
@@ -47,6 +59,8 @@ object AppModule {
             updateTodo = UpdateTodo(repository)
 
         )
+
+
 
 
 }

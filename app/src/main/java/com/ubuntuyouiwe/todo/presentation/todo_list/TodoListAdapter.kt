@@ -72,6 +72,8 @@ class TodoListAdapter : PagingDataAdapter<TodoDomain, TodoListAdapter.ListTodoAd
         }
     }
 
+
+
     override fun onBindViewHolder(holder: ListTodoAdapter, position: Int) {
         val item = getItem(position)
         item?.let {

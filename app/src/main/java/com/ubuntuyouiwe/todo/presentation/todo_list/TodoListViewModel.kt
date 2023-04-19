@@ -2,6 +2,7 @@ package com.ubuntuyouiwe.todo.presentation.todo_list
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -9,6 +10,7 @@ import androidx.paging.map
 import com.ubuntuyouiwe.todo.domain.model.remote.TodoDomain
 import com.ubuntuyouiwe.todo.domain.use_case.TodoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
@@ -23,15 +25,16 @@ class TodoListViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    var state = MutableStateFlow<PagingData<TodoDomain>>(PagingData.empty())
+    /*var state = MutableStateFlow(useCase.getTodoList())
         private set
+
+    val shred = MutableStateFlow(useCase.getTodoList())*/
 
     init {
         showList()
-
     }
 
-    val st = useCase.getTodoList().cachedIn(viewModelScope)
+    val state = useCase.getTodoList().cachedIn(viewModelScope)
 
 
     fun showList() {
@@ -42,7 +45,6 @@ class TodoListViewModel @Inject constructor(
         /*useCase.getTodoList().cachedIn(viewModelScope)
              .onEach { state.value = it }
              .launchIn(viewModelScope)*/
-
 
     }
 

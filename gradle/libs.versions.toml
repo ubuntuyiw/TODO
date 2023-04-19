@@ -19,7 +19,7 @@ espresso-core = "3.5.1"
 appcompat = "1.6.1"
 material = "1.8.0"
 constraintlayout = "2.1.4"
-paging-runtime-ktx = "3.1.1"
+paging-runtime-ktx = "3.2.0-alpha04"
 room-runtime = "2.5.1"
 firebase-firestore-ktx = "24.4.5"
 firebase-storage-ktx = "20.1.0"
@@ -40,6 +40,7 @@ androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx",
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "paging-runtime-ktx" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room-runtime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room-runtime" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room-runtime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room-runtime" }
 androidx-savedstate-ktx = { module = "androidx.savedstate:savedstate-ktx", version.ref = "savedstate-ktx" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }

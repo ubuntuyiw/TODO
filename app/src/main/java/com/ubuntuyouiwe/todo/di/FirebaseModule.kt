@@ -3,6 +3,7 @@ package com.ubuntuyouiwe.todo.di
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -16,7 +17,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class FirebaseModule {
+object FirebaseModule {
     @Singleton
     @Provides
     fun provideAuth(): FirebaseAuth =
@@ -31,6 +32,10 @@ class FirebaseModule {
     @Provides
     fun provideStorage(): FirebaseStorage =
         Firebase.storage
+
+
+
+
 
 
 }

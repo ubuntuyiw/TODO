@@ -1,7 +1,11 @@
 package com.ubuntuyouiwe.todo.data.repository
 
+import android.util.Log
+import androidx.paging.LoadState
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
@@ -20,43 +24,40 @@ class TodoListPagingSource constructor(
 ) : PagingSource<QuerySnapshot, TodoDomain>() {
     override fun getRefreshKey(state: PagingState<QuerySnapshot, TodoDomain>): QuerySnapshot? {
 
-        /*return state.lastItemOrNull()?.let { item ->
-            state.pages.firstOrNull { page ->
-                page.data.contains(item)
-            }?.prevKey
-        }*/
-
-        /*return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.let { anchorPage ->
-                anchorPage.nextKey ?: anchorPage.prevKey
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.let {
+                if (it.prevKey != null) {
+                    it.prevKey
+                } else if (it.nextKey != null) {
+                    it.nextKey
+                } else {
+                    null
+                }
             }
-        }*/
-
-        return null
+        }
     }
-
 
 
     override suspend fun load(params: LoadParams<QuerySnapshot>): LoadResult<QuerySnapshot, TodoDomain> {
         return try {
 
+            val currentPage = params.key ?: query.get(Source.CACHE).await()
 
-            val currentPage = params.key ?:query.get(Source.CACHE).await()
+            val lastVisibleTodo = currentPage.documents[currentPage.size() - 1].get("deadline") as Timestamp
 
-            val lastVisibleTodo = currentPage.documents[currentPage.size() - 1]
             val nextPage = query.startAfter(lastVisibleTodo).get(Source.CACHE).await()
 
+            Log.v("RemoteMediator", "PagingSource" + nextPage.isEmpty.toString())
 
             LoadResult.Page(
                 data = currentPage.toObjects(TodoDto::class.java).map { it.toTodoDomain() },
                 prevKey = null,
-                nextKey = nextPage
+                nextKey = if (nextPage.isEmpty) null else nextPage
             )
         } catch (e: Exception) {
+            Log.v("RemoteMediator", e.message.toString())
             LoadResult.Error(e)
         }
-
-
     }
 
 }

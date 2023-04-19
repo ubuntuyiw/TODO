@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -18,6 +19,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.ubuntuyouiwe.todo.R
 import com.ubuntuyouiwe.todo.databinding.FragmentTodoListBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -26,7 +31,7 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
     override fun onStart() {
         super.onStart()
 
-        todoListAdapter.refresh()
+        //todoListAdapter.refresh()
     }
 
 
@@ -54,50 +59,68 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
 
         binding?.todoRecyclerList!!.adapter = todoListAdapter
 
-
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            todoListAdapter.loadStateFlow.collect {
-                when (it.source.refresh) {
-                    is LoadState.Loading -> {
-                        Log.v("loadStateDeneme","loading")
-                    }
-                    is LoadState.Error -> {
-                        Log.v("loadStateDeneme","Error")
-                    }
-                    is LoadState.NotLoading -> {
-                        Log.v("loadStateDeneme","NotLoading")
-                    }
-                }
-            }
+        binding!!.refresh.setOnRefreshListener {
+            todoListAdapter.refresh()
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             todoListAdapter.loadStateFlow.collect {
-                when (it.mediator?.refresh!!) {
-                    is LoadState.Loading -> {
-                        binding!!.progressBar.visibility = View.VISIBLE
-                    }
-                    is LoadState.Error -> {
-                        binding!!.progressBar.visibility = View.INVISIBLE
-                        Snackbar.make(binding!!.todoRecyclerList, "Bağlantı sorunu lütfen tekrar deneyin", Snackbar.LENGTH_INDEFINITE)
-                            .setAction("Retry") {
-                                todoListAdapter.retry()
-                            }
-                            .setBackgroundTint(Color.WHITE)
-                            .setTextColor(Color.BLACK)
-                            .setActionTextColor(Color.BLACK)
-                            .show()
-
-                    }
-                    is LoadState.NotLoading -> {
-                        binding!!.progressBar.visibility = View.INVISIBLE
+                mediatorAppend(it)
+                mediatorPrepend(it)
+                mediatorRefresh(it)
 
 
-                    }
-                }
+                sourceAppend(it)
+                sourcePrepend(it)
+                sourceRefresh(it)
+
+               /* if (!it.source.refresh.endOfPaginationReached)
+                    todoListAdapter.retry()*/
+
+
             }
         }
+
+        /*viewLifecycleOwner.lifecycleScope.launch {
+            todoListAdapter.loadStateFlow.collect {
+                if (it.mediator != null){
+                    when (it.mediator?.refresh!!) {
+                        is LoadState.Loading -> {
+                            Log.v("loadStateDeneme","mediator : loading")
+
+                            binding!!.progressBar.visibility = View.VISIBLE
+                            binding!!.refresh.isRefreshing = true
+
+                        }
+                        is LoadState.Error -> {
+                            Log.v("loadStateDeneme","mediator : Error")
+                            binding!!.refresh.isRefreshing = false
+                            binding!!.progressBar.visibility = View.INVISIBLE
+
+                            Snackbar.make(binding!!.todoRecyclerList, "Bağlantı sorunu lütfen tekrar deneyin", Snackbar.LENGTH_INDEFINITE)
+                                .setAction("Retry") {
+                                    todoListAdapter.retry()
+                                }
+                                .setBackgroundTint(Color.WHITE)
+                                .setTextColor(Color.BLACK)
+                                .setActionTextColor(Color.BLACK)
+                                .show()
+
+                        }
+                        is LoadState.NotLoading -> {
+                            Log.v("loadStateDeneme","mediator : NotLoading")
+
+                            binding!!.refresh.isRefreshing = false
+                            binding!!.progressBar.visibility = View.INVISIBLE
+
+
+                        }
+                    }
+                }
+
+            }
+        }*/
+
 
 
 
@@ -105,11 +128,15 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
 
         viewLifecycleOwner.lifecycleScope.launch {
 
-            viewModel.st.collect {
-                todoListAdapter.submitData(it)
+
+            viewModel.state.collectLatest { todoList ->
+                todoListAdapter.submitData(todoList)
+
             }
 
+
         }
+
 
 
         todoListAdapter.setOnItemClickListener { uuID, title, content, deadline ->
@@ -129,12 +156,112 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
 
         binding!!.floatingActionButton.setOnClickListener {
 
-            findNavController().navigate(TodoListFragmentDirections.actionTodoListFragmentToEditOrAddTodoFragment())
-            //todoListAdapter.retry()
+            //findNavController().navigate(TodoListFragmentDirections.actionTodoListFragmentToEditOrAddTodoFragment())
+            todoListAdapter.refresh()
 
         }
 
 
+    }
+
+
+    private fun mediatorRefresh(loadStates: CombinedLoadStates) {
+        when (val refresh = loadStates.mediator?.refresh!!) {
+            is LoadState.Loading -> {
+                Log.v("loadStates: CombinedLoadStates","mediatorRefresh Loading")
+
+            }
+            is LoadState.NotLoading -> {
+                Log.v("loadStates: CombinedLoadStates","mediatorRefresh NotLoading")
+
+            }
+            is LoadState.Error -> {
+                Log.v("loadStates: CombinedLoadStates","mediatorRefresh Error")
+
+            }
+        }
+    }
+    private fun mediatorAppend(loadStates: CombinedLoadStates) {
+        when (val append = loadStates.mediator?.append!!) {
+            is LoadState.Loading -> {
+                Log.v("loadStates: CombinedLoadStates","mediatorAppend Loading")
+
+            }
+            is LoadState.NotLoading -> {
+                Log.v("loadStates: CombinedLoadStates","mediatorAppend NotLoading")
+
+            }
+            is LoadState.Error -> {
+                Log.v("loadStates: CombinedLoadStates","mediatorAppend Error")
+
+            }
+        }
+    }
+    private fun mediatorPrepend(loadStates: CombinedLoadStates) {
+        when (val prepend = loadStates.mediator?.prepend!!) {
+            is LoadState.Loading -> {
+                Log.v("loadStates: CombinedLoadStates","mediatorPrepend Loading")
+
+            }
+            is LoadState.NotLoading -> {
+                Log.v("loadStates: CombinedLoadStates","mediatorPrepend NotLoading")
+
+            }
+            is LoadState.Error -> {
+                Log.v("loadStates: CombinedLoadStates","mediatorPrepend Error")
+
+            }
+        }
+    }
+
+
+    private fun sourceRefresh(loadStates: CombinedLoadStates) {
+        when (val refresh = loadStates.source.refresh) {
+            is LoadState.Loading -> {
+                Log.v("loadStates: CombinedLoadStates","sourceRefresh Loading")
+
+            }
+            is LoadState.NotLoading -> {
+                Log.v("loadStates: CombinedLoadStates","sourceRefresh NotLoading")
+
+            }
+            is LoadState.Error -> {
+                Log.v("loadStates: CombinedLoadStates","sourceRefresh Error : ${refresh.endOfPaginationReached} ${refresh.error.message.toString()}" )
+
+            }
+        }
+    }
+    private fun sourceAppend(loadStates: CombinedLoadStates) {
+        when (val append = loadStates.source.append) {
+            is LoadState.Loading -> {
+                Log.v("loadStates: CombinedLoadStates","sourceAppend Loading")
+
+            }
+            is LoadState.NotLoading -> {
+                Log.v("loadStates: CombinedLoadStates","sourceAppend NotLoading")
+
+            }
+            is LoadState.Error -> {
+                Log.v("loadStates: CombinedLoadStates","sourceAppend Error")
+
+            }
+        }
+    }
+    private fun sourcePrepend(loadStates: CombinedLoadStates) {
+        when (val prepend = loadStates.source.prepend) {
+            is LoadState.Loading -> {
+                Log.v("loadStates: CombinedLoadStates","sourcePrepend Loading")
+
+            }
+            is LoadState.NotLoading -> {
+                Log.v("loadStates: CombinedLoadStates","sourcePrepend NotLoading")
+
+            }
+            is LoadState.Error -> {
+                Log.v("loadStates: CombinedLoadStates","sourcePrepend Error")
+
+            }
+        }
     }
 
 
