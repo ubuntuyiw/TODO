@@ -23,21 +23,25 @@ class TodoListRemoteMediator constructor(
     ): MediatorResult {
 
         return try {
+
             val currentPage: QuerySnapshot = when (loadType) {
                 LoadType.REFRESH -> {
-                    Log.v("RemoteMediator","REFRESH")
+                    Log.v("RemoteMediator", "REFRESH")
                     query.get(Source.SERVER).await()
-
                 }
+
                 LoadType.PREPEND -> {
-                    Log.v("RemoteMediator","PREPEND")
+                    Log.v("RemoteMediator", "PREPEND")
                     return MediatorResult.Success(endOfPaginationReached = false)
                 }
+
                 LoadType.APPEND -> {
-                    Log.v("RemoteMediator","APPEND")
+                    Log.v("RemoteMediator", "APPEND")
                     Log.v("RemoteMediator", state.lastItemOrNull().toString())
 
-                    val lastItem = state.lastItemOrNull() ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    val lastItem = state.lastItemOrNull() ?: return MediatorResult.Success(
+                        endOfPaginationReached = true
+                    )
 
                     query.startAfter(lastItem.deadline).get(Source.SERVER).await()
 
@@ -47,11 +51,14 @@ class TodoListRemoteMediator constructor(
 
             val endOfPaginationReached = currentPage.size() < state.config.pageSize
 
-            Log.v("RemoteMediator",endOfPaginationReached.toString() +" : "+ state.config.pageSize + " : " + currentPage.size())
+            Log.v(
+                "RemoteMediator",
+                endOfPaginationReached.toString() + " : " + state.config.pageSize + " : " + currentPage.size()
+            )
 
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {
-            Log.v("RemoteMediator","ERROR")
+            Log.v("RemoteMediator", "ERROR")
 
             MediatorResult.Error(e)
         }

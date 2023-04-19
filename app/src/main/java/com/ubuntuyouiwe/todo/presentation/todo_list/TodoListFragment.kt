@@ -123,6 +123,11 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
 
 
 
+        todoListAdapter.addOnPagesUpdatedListener {
+            Log.v("todoListAdapter.submitData(todoList)","itemcount : "+todoListAdapter.itemCount.toString())
+
+
+        }
 
 
 
@@ -130,6 +135,8 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
 
 
             viewModel.state.collectLatest { todoList ->
+                Log.v("todoListAdapter.submitData(todoList)","1")
+
                 todoListAdapter.submitData(todoList)
 
             }
